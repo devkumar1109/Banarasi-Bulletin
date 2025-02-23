@@ -137,7 +137,7 @@ def generate_news_page(article, html_file="index.html", css_file="style.css"):
     <meta name="twitter:description" content="{article['summary']}">
     <meta name="twitter:image" content="{article['image_url']}">
 
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <header>
