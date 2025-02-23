@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banarasi Bulletin - Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Banarasi Bulletin</h1>
+    </header>
+    <main>
+        <h2>Articles</h2>
+        <div id="articles-container"></div>
+    </main>
+
+    <script>
+        fetch('articles.json')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('articles-container');
+                data.forEach(article => {
+                    const articleLink = document.createElement('a');
+                    articleLink.href = article.path;
+                    articleLink.innerText = article.title;
+                    articleLink.classList.add('article-link');
+                    container.appendChild(articleLink);
+                });
+            })
+            .catch(error => console.error('Error loading articles:', error));
+    </script>
+</body>
+</html>

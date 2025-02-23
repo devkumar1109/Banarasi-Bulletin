@@ -1,0 +1,31 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+main {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.article-link {
+    display: block;
+    margin: 15px 0;
+    text-decoration: none;
+    color: #007bff;
+    font-size: 18px;
+}
+
+.article-link:hover {
+    text-decoration: underline;
+}
