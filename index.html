@@ -3,32 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Banarasi Bulletin - Home</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Banarasi Bulletin</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Banarasi Bulletin</h1>
-    </header>
-    <main>
-        <h2>Articles</h2>
-        <div id="articles-container"></div>
-    </main>
+    <h1>Banarasi Bulletin</h1>
+    
+    <!-- Search Bar -->
+    <input type="text" id="searchBar" placeholder="Search articles..." onkeyup="searchArticles()">
+    
+    <!-- Search Results Container -->
+    <div id="searchResults"></div>
 
-    <script>
-        fetch('/api/articles')
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById('articles-container');
-                data.forEach(article => {
-                    const articleLink = document.createElement('a');
-                    articleLink.href = article.link;
-                    articleLink.innerText = article.title;
-                    articleLink.classList.add('article-link');
-                    container.appendChild(articleLink);
-                });
-            })
-            .catch(error => console.error('Error loading articles:', error));
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
