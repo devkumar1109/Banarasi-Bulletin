@@ -30,7 +30,7 @@ Banarasi Bulletin is an automated news aggregation and blogging platform focused
 - **Hosting & Deployment**: Vercel, GitHub Actions
 
 ## 📂 Project Structure
-
+```
 Banarasi-Bulletin/
 │-- public/
 │   ├── articles/  # Generated individual article pages
@@ -51,7 +51,7 @@ Banarasi-Bulletin/
 │-- vercel.json  # Vercel deployment configuration
 │-- package-lock.json
 │-- .gitignore
-
+```
 ## Automation Setup
 GitHub Actions is configured to update the website **every 8 hours** by running the scraping and content generation script. The YAML workflow file ensures a fully automated process without manual intervention.
 
