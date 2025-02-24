@@ -6,6 +6,10 @@
         "headers": {
           "Content-Type": "text/javascript"
         }
+      },
+      {
+        "src": "/api/(.*)",
+        "dest": "/api/$1"
       }
     ]
   }
