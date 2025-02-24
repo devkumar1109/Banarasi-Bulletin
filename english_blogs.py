@@ -71,7 +71,7 @@ def fetch_news():
                 time.sleep(1.5)
                 
 
-                image_model = Client('black-forest-labs/FLUX.1-schnell', hf_token = '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')
+                image_model = Client('black-forest-labs/FLUX.1-schnell', hf_token = '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')
                 result_image = image_model.predict(prompt = result_prompt.content, seed=0,randomize_seed=True,
                                                     width=512,height=288,num_inference_steps=10,api_name="/infer")
                 
