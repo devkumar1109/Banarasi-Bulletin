@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 USER_AGENT = os.getenv('USER_AGENT')
-project_path = "https://project1-three-omega.vercel.app/public/"
+project_path = "https://project1-three-omega.vercel.app/"
 
 from langchain_community.document_loaders import WebBaseLoader
 from langchain_groq import ChatGroq
@@ -26,8 +26,10 @@ def fetch_news():
     db = client["my_articles"]
     collection = db["news_articles"]  # Collection where articles will be stored
 
-    genres = ['sports', 'politics', 'health', 'crime', 'entertainment', 'technology']
-    locations = ['Varanasi', 'Uttar Pradesh']
+    # genres = ['sports', 'politics', 'health', 'crime', 'entertainment', 'technology']
+    # locations = ['Varanasi', 'Uttar Pradesh']
+    genres = ['health']
+    locations = ['Varanasi']
     news = []
     for genre in genres:
         for location in locations:
@@ -42,35 +44,29 @@ def fetch_news():
                 loader = WebBaseLoader(web_path=result[0]['link'])
                 text = loader.load()
                 
-                text = re.sub(r'\s+' , ' ', text[0].page_content)
+                text = re.sub(r'\s+' , ' ', text[0].page_content[:4000])
                 page_content = text.strip()
                 
                 if len(page_content) < 20:
                     continue
                 
-                llm = ChatGroq(model='llama3-70b-8192', api_key='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')
+                llm = ChatGroq(model='llama-3.3-70b-versatile', api_key='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')
                 
-                result_news = llm.invoke(f"""Please extract factual, valuable and relevant news from the provided content in 350 words.
+                result_summary = llm.invoke(f"""Please extract factual, valuable and relevant news from the provided content
+                                         and summarize it in 150 words.
                                     Do not skip any valuable news related information.
                                     Do not generate any extra text.
                                     <content>{page_content}</content>""")
                 time.sleep(1.5)
-                
-                result_summary = llm.invoke(f"""Please give me the detailed and factual summary of provided news article around 150 words.
-                                            Include all the relevant content.
-                                            Do not generate any extra text.
-                                            <article>{result_news.content}</article>
-                                            """)
-                time.sleep(1.5)
                 article['summary'] = result_summary.content
                 
-                result_title = llm.invoke(f"""Provide me a catchy, relevant and clever title for the following news summary.
+                result_title = llm.invoke(f"""Provide me a catchy, relevant and clever title for the following news summary of at max 10 words.
                                         Do not generate any extra text.
                                         <summary>{result_summary.content}</summary>""")
                 time.sleep(1.5)
                 article['title'] = result_title.content
 
-                result_prompt = llm.invoke(f"""Give me a suitable prompt for the provided summary so that
+                result_prompt = llm.invoke(f"""Give me a suitable prompt in 100 words for the provided summary so that
                                         i can use this prompt in a llm to generate a real image.
                                         Do not generate anything extra.
                                         <summary>{result_summary.content}</summary>""")
@@ -82,14 +78,8 @@ def fetch_news():
                                                     width=512,height=288,num_inference_steps=10,api_name="/infer")
                 
                 
-                result_img_title = llm.invoke(f"""Generate a 6 words long title from the summary.
-                                            Do not generate any extra text.
-                                            <summary>{result_summary.content}</summary>""")
-                time.sleep(1.5)
-                article['image_title'] = result_img_title.content
-                
                 cloudinary.config(cloud_name = "duix0mwfx", api_key = "951464569893896", api_secret = "gD6hwHlMYcT08QcYj8vnVxBJZkg", secure=True)
-                upload_result = cloudinary.uploader.upload(result_image[0],public_id=result_img_title.content)
+                upload_result = cloudinary.uploader.upload(result_image[0],public_id=result_title.content)
                 article['image_url'] = upload_result["secure_url"]
                 
                 time.sleep(1.5)
@@ -115,7 +105,7 @@ def fetch_news():
                 
                 article_data = {
                     "title": article["title"],
-                    "link": f"{project_path}/articles/{article["image_title"].replace(" ", "_")}/index.html",
+                    "link": f"{project_path}/articles/{re.sub(r'[<>:"/\\|?*]', '', (article["title"].replace(" ", "_")))}/index.html",
                     "keywords": article['keywords'],
                     "image": article['image_url']
                 }
@@ -127,12 +117,8 @@ def fetch_news():
                 print(e)
                 continue
     return news
-def sanitize_filename(filename):
-    # Remove any invalid characters
-    return re.sub(r'[<>:"/\\|?*]', '_', filename)
 
-
-def generate_news_page(article, html_file="index1.html", css_file="style1.css"):
+def generate_news_page(article, html_file="index.html", css_file="style.css"):
     # HTML Content with enhanced styling and hashtag section
     html_content = f"""<!DOCTYPE html>
 <html lang="en">
@@ -165,7 +151,7 @@ def generate_news_page(article, html_file="index1.html", css_file="style1.css"):
     </header>
     <main>
         <div class="news-card">
-            <img src="{article['image_url']}" alt={article['image_title']}>
+            <img src="{article['image_url']}" alt={article['title']}>
             <div class="news-content">
                 <h2>{article['title']}</h2>
                 <p class="date">{article['date']}</p>
@@ -276,16 +262,15 @@ main {
 """
 
     # Write HTML file
-    article_title = article["image_title"].replace(" ", "_")  # Create a safe directory name
-    article_title = sanitize_filename(article_title)
-    directory = os.path.join("public/articles", article_title)
+    article_title = re.sub(r'[<>:"/\\|?*]', '', (article["title"].replace(" ", "_")))  # Create a safe directory name
+    directory = os.path.join("public\\articles", article_title)
 
     # Create the directory if it doesn't exist
     os.makedirs(directory, exist_ok=True)
 
     # File paths
-    html_file_path = os.path.join(directory, "index1.html")
-    css_file_path = os.path.join(directory, "style1.css")
+    html_file_path = os.path.join(directory, "index.html")
+    css_file_path = os.path.join(directory, "style.css")
 
     # Write HTML file
     with open(html_file_path, "w") as html_f:
@@ -302,8 +287,7 @@ main {
 news = fetch_news()
 
 for article in news:
-    article_title = article["image_title"].replace(" ", "_")
-    article_title = sanitize_filename(article_title)
-    directory = os.path.join("public/articles", article_title)
-    generate_news_page(article, html_file=f"{directory}/index1.html", css_file=f"{directory}/style1.css")
+    article_title = re.sub(r'[<>:"/\\|?*]', '', (article["title"].replace(" ", "_")))
+    directory = os.path.join("public\\articles", article_title)
+    generate_news_page(article, html_file=f"{directory}/index.html", css_file=f"{directory}/style.css")
     
