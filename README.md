@@ -60,11 +60,6 @@ GitHub Actions is configured to update the website **every 8 hours** by running 
 - **Comments & Engagement**: Allow users to comment and interact with news articles.
 - **Multilingual Support**: Expand content generation to include multiple languages.
 
-## Contributing
-We welcome contributions! Feel free to fork the repo, make improvements, and submit a pull request.
-
-## License
-This project is licensed under the MIT License.
 
 ---
 🚀 **Banarasi Bulletin - Keeping You Updated with the Latest News from Varanasi & UP!**
