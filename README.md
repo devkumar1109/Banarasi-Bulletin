@@ -37,20 +37,20 @@ Banarasi-Bulletin/
 |   ├── index.html  # Homepage with search & sidebar
 │   ├── styles.css  # Styling for the website
 │   ├── scripts.js  # Handles search & API calls
-│-- english_blogs.py  # News scraping and summarization script
 │-- .github/
 │   ├── workflows/
 │       ├── update_news.yml  # GitHub Actions automation (runs every 8 hours)
+│-- api/
+│   ├── get_articles.js
+│-- node_modules/
+│-- .env
+│-- english_blogs.py  # News scraping and summarization script
 │-- README.md  # Project documentation
 │-- requirements.txt  # Dependencies
 │-- package.json  # Node.js dependencies for the API
 │-- vercel.json  # Vercel deployment configuration
 │-- package-lock.json
 │-- .gitignore
-│-- .env
-│-- node_modules/
-│-- api/
-│   ├── get_articles.js
 
 ## Automation Setup
 GitHub Actions is configured to update the website **every 8 hours** by running the scraping and content generation script. The YAML workflow file ensures a fully automated process without manual intervention.
