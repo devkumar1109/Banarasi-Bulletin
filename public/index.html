@@ -3,19 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Banarasi Bulletin</title>
+    <title>Banarasi Bulletin - Home</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="description" content="Latest news articles from Banarasi Bulletin. Stay updated with the current events!">
+    <meta name="keywords" content="news, articles, Banarasi Bulletin, current events">
 </head>
 <body>
-    <h1>Banarasi Bulletin</h1>
-    
-    <!-- Search Bar -->
-    <input type="text" id="searchBar" placeholder="Search articles..." onkeyup="searchArticles()">
-    
-    <!-- Search Results Container -->
-    <div id="searchResults"></div>
-
-    <script src="/script.js"></script>
-
+    <header>
+        <h1>Banarasi Bulletin</h1>
+        <input type="text" id="searchBar" placeholder="Search articles..." onkeyup="searchArticles()">
+    </header>
+    <main>
+        <div id="articles-container"></div>
+    </main>
+    <footer>
+        <p>&copy; 2025 Banarasi Bulletin. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
 </body>
 </html>

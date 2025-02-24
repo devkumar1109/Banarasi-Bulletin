@@ -22,7 +22,7 @@ function searchArticles() {
         .then(data => {
             console.log("Search results:", data); // Debugging log
 
-            const resultsContainer = document.getElementById("searchResults");
+            const resultsContainer = document.getElementById("articles-container");
             resultsContainer.innerHTML = "";
 
             if (data.length === 0) {
