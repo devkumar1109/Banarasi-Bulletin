@@ -1,4 +1,6 @@
-document.getElementById("searchBar").addEventListener("input", searchArticles);
+window.onload = function () {
+    document.getElementById("searchBar").addEventListener("input", searchArticles);
+};
 
 function searchArticles() {
     const query = document.getElementById("searchBar").value.trim();
@@ -11,7 +13,12 @@ function searchArticles() {
     console.log("Searching for:", query);  // Debugging log
 
     fetch(`/api/search?q=${encodeURIComponent(query)}`)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
         .then(data => {
             console.log("Search results:", data); // Debugging log
 
