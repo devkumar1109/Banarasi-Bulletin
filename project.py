@@ -128,7 +128,7 @@ def fetch_news():
                 continue
     return news
             
-def generate_news_page(article, html_file="index.html", css_file="style.css"):
+def generate_news_page(article, html_file="index1.html", css_file="style1.css"):
     # HTML Content with enhanced styling and hashtag section
     html_content = f"""<!DOCTYPE html>
 <html lang="en">
@@ -279,8 +279,8 @@ main {
     os.makedirs(directory, exist_ok=True)
 
     # File paths
-    html_file_path = os.path.join(directory, "index.html")
-    css_file_path = os.path.join(directory, "style.css")
+    html_file_path = os.path.join(directory, "index1.html")
+    css_file_path = os.path.join(directory, "style1.css")
 
     # Write HTML file
     with open(html_file_path, "w") as html_f:
@@ -299,5 +299,5 @@ news = fetch_news()
 for article in news:
     article_title = article["image_title"].replace(" ", "_")
     directory = os.path.join("public/articles", article_title)
-    generate_news_page(article, html_file=f"{directory}/index.html", css_file=f"{directory}/style.css")
+    generate_news_page(article, html_file=f"{directory}/index1.html", css_file=f"{directory}/style1.css")
     
