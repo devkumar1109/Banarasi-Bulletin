@@ -25,7 +25,7 @@ article_data = {
         "title": article["title"],
         "link": article['link'],
         "keywords": article['keywords'],
-        "image": article['image']
+        "image_url": article['image']
     }
     
 collection.insert_one(article_data)

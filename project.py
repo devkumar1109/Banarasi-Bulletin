@@ -2,10 +2,12 @@ import os
 import time
 import re
 import json
+import pymongo
 from dotenv import load_dotenv
 load_dotenv()
 
 USER_AGENT = os.getenv('USER_AGENT')
+project_path = "https://project1-three-omega.vercel.app/public/"
 
 from langchain_community.document_loaders import WebBaseLoader
 from langchain_groq import ChatGroq
@@ -19,6 +21,10 @@ import cloudinary.uploader
 def fetch_news():
     wrapper = DuckDuckGoSearchAPIWrapper(region='in-en', time='d')
     search = DuckDuckGoSearchResults(api_wrapper=wrapper, backend = 'news', num_results=7, output_format='list')
+    MONGO_URI = os.getenv('MONGO_URI')
+    client = pymongo.MongoClient(MONGO_URI)
+    db = client["my_articles"]
+    collection = db["news_articles"]  # Collection where articles will be stored
 
     genres = ['sports', 'politics', 'health', 'crime', 'business', 'technology']
     locations = ['Varanasi', 'Uttar Pradesh']
@@ -42,9 +48,9 @@ def fetch_news():
                 if len(page_content) < 20:
                     continue
                 
-                llm = ChatGroq(model='llama-3.3-70b-specdec', api_key='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')
+                llm = ChatGroq(model='llama-3.3-70b-versatile', api_key='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')
                 
-                result_news = llm.invoke(f"""Please extract factual, valuable and relevant news from the provided content.
+                result_news = llm.invoke(f"""Please extract factual, valuable and relevant news from the provided content in 350 words.
                                     Do not skip any valuable news related information.
                                     Do not generate any extra text.
                                     <content>{page_content}</content>""")
@@ -106,6 +112,16 @@ def fetch_news():
                 article['hashtags']+= ', #' + genre + ', #' + location + ', #BanarasiBulletin'
                 
                 news.append(article)
+                
+                article_data = {
+                    "title": article["title"],
+                    "link": f"{project_path}/articles/{article["image_title"].replace(" ", "_")}/index.html",
+                    "keywords": article['keywords'],
+                    "image": article['image_url']
+                }
+                
+                collection.insert_one(article_data)
+                print(f"Stored in MongoDB successfully!")
                
             except Exception as e:
                 print(e)
@@ -257,7 +273,7 @@ main {
 
     # Write HTML file
     article_title = article["image_title"].replace(" ", "_")  # Create a safe directory name
-    directory = os.path.join("articles", article_title)
+    directory = os.path.join("public/articles", article_title)
 
     # Create the directory if it doesn't exist
     os.makedirs(directory, exist_ok=True)
@@ -282,6 +298,6 @@ news = fetch_news()
 
 for article in news:
     article_title = article["image_title"].replace(" ", "_")
-    directory = os.path.join("articles", article_title)
+    directory = os.path.join("public/articles", article_title)
     generate_news_page(article, html_file=f"{directory}/index.html", css_file=f"{directory}/style.css")
     
