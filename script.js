@@ -26,7 +26,7 @@ function searchArticles() {
             resultsContainer.innerHTML = "";
 
             if (data.length === 0) {
-                resultsContainer.innerHTML = "<p>No articles found.</p>";
+                resultsContainer.innerHTML = "No articles found.";
                 return;
             }
 
