@@ -48,7 +48,7 @@ def fetch_news():
                 if len(page_content) < 20:
                     continue
                 
-                llm = ChatGroq(model='llama3-70b-8192', api_key='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')
+                llm = ChatGroq(model='gemma2-9b-it', api_key='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')
                 
                 result_summary = llm.invoke(f"""Please extract factual, valuable and relevant news from the provided content
                                          and summarize it in 150 words.
@@ -56,14 +56,14 @@ def fetch_news():
                                     Do not generate any extra text.
                                     <content>{page_content}</content>""")
                 time.sleep(1.5)
-                article['summary'] = result_summary.content
+                article['summary'] = result_summary.content.strip()
                 
                 result_title = llm.invoke(f"""Provide me a catchy, relevant and clever title for the following news summary of at max 10 words.
                                         Do not generate any extra text.
                                         <summary>{result_summary.content}</summary>""")
                 time.sleep(1.5)
-                article['title'] = result_title.content
-
+                article['title'] = result_title.content.strip()
+                
                 result_prompt = llm.invoke(f"""Give me a suitable prompt in 100 words for the provided summary so that
                                         i can use this prompt in a llm to generate a real image.
                                         Do not generate anything extra.
@@ -77,7 +77,7 @@ def fetch_news():
                 
                 
                 cloudinary.config(cloud_name = "duix0mwfx", api_key = "951464569893896", api_secret = "gD6hwHlMYcT08QcYj8vnVxBJZkg", secure=True)
-                upload_result = cloudinary.uploader.upload(result_image[0],public_id=result_title.content)
+                upload_result = cloudinary.uploader.upload(result_image[0],public_id=article['title'])
                 article['image_url'] = upload_result["secure_url"]
                 
                 time.sleep(1.5)
@@ -280,8 +280,9 @@ main {
 
     print(f"Generated {html_file_path} and {css_file_path} successfully!")
 
-
-
+    
+    
+    
 news = fetch_news()
 
 for article in news:

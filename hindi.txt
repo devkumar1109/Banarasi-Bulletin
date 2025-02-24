@@ -1,0 +1,185 @@
+# llm_hindi = ChatGroq(model='llama-3.3-70b-versatile', api_key='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')
+                # result_summary_hindi = llm_hindi.invoke(f"""Translate the given summary into Hindi.
+                #                                         Do not generate any extra text.
+                #                                         <summary>{result_summary.content}</summary>""")
+                # time.sleep(2)
+                # article['hindi_summary'] = result_summary_hindi.content
+                
+
+# result_title_hindi = llm_hindi.invoke(f"""PRovide the hindi translation of given title.
+                #                                       Do not generate any extra text.
+                #                                       <title>{result_title.content}</title>""")
+                # time.sleep(2)
+                # article['hindi_title'] = result_title_hindi.content
+
+                
+# def generate_hindi_news_page(article, html_file="index.html", css_file="style.css"):
+#     # HTML Content with enhanced styling and hashtag section
+#     html_content = f"""<!DOCTYPE html>
+# <html lang="en">
+# <head>
+#     <meta charset="UTF-8">
+#     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+#     <title>Banarasi Bulletin - {article['hindi_title']}</title>
+#     <meta name="description" content="{article['hindi_summary']}">
+#     <meta name="keywords" content="news, latest news, updates, {article['keywords'].lower()}">
+#     <meta name="author" content="Banarasi Bulletin">
+
+#     <!-- Open Graph for social media -->
+#     <meta property="og:title" content="{article['hindi_title']}">
+#     <meta property="og:description" content="{article['hindi_summary']}">
+#     <meta property="og:image" content="{article['image_url']}">
+#     <meta property="og:url" content="{article['source']}">
+#     <meta property="og:type" content="article">
+
+#     <!-- Twitter Card -->
+#     <meta name="twitter:card" content="summary_large_image">
+#     <meta name="twitter:title" content="{article['hindi_title']}">
+#     <meta name="twitter:description" content="{article['hindi_summary']}">
+#     <meta name="twitter:image" content="{article['image_url']}">
+
+#     <link rel="stylesheet" href="./style.css">
+# </head>
+# <body>
+#     <header>
+#         <h1>Banarasi Bulletin</h1>
+#     </header>
+#     <main>
+#         <div class="news-card">
+#             <img src="{article['image_url']}" alt={article['hindi_title']}>
+#             <div class="news-content">
+#                 <h2>{article['hindi_title']}</h2>
+#                 <p class="date">{article['date']}</p>
+#                 <p class="summary">{article['hindi_summary']}</p>
+#                 <a href="{article['link']}" target="_blank" class="source">Read full article by {article['source']}</a>
+#                 <p class="hashtags">{article['hashtags']}</p>
+#             </div>
+#         </div>
+#     </main>
+# </body>
+# </html>
+# """
+
+#     # CSS Content with better styling
+#     css_content = """body {
+#     font-family: 'Arial', sans-serif;
+#     background-color: #f4f4f4;
+#     margin: 0;
+#     padding: 0;
+#     display: flex;
+#     flex-direction: column;
+#     align-items: center;
+# }
+
+# header {
+#     width: 100%;
+#     background: #2c3e50;
+#     color: white;
+#     text-align: center;
+#     padding: 20px 0;
+#     font-size: 28px;
+#     font-weight: bold;
+#     letter-spacing: 1px;
+#     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+# }
+
+# main {
+#     width: 90%;
+#     max-width: 800px;
+#     margin: 30px auto;
+# }
+
+# .news-card {
+#     background: white;
+#     border-radius: 12px;
+#     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+#     overflow: hidden;
+#     margin-bottom: 25px;
+#     border: 1px solid #ddd;
+#     transition: transform 0.2s ease-in-out;
+# }
+
+# .news-card:hover {
+#     transform: scale(1.02);
+# }
+
+# .news-card img {
+#     width: 100%;
+#     height: auto;
+#     border-bottom: 3px solid #007bff;
+# }
+
+# .news-content {
+#     padding: 20px;
+#     text-align: center;
+# }
+
+# .news-content h2 {
+#     font-size: 24px;
+#     margin: 0 0 12px;
+#     color: #333;
+# }
+
+# .date {
+#     font-size: 14px;
+#     color: #777;
+#     margin-bottom: 8px;
+# }
+
+# .summary {
+#     font-size: 16px;
+#     color: #444;
+#     margin-bottom: 15px;
+#     line-height: 1.6;
+# }
+
+# .source {
+#     display: inline-block;
+#     text-decoration: none;
+#     background: #007bff;
+#     color: white;
+#     padding: 10px 16px;
+#     border-radius: 5px;
+#     font-size: 14px;
+#     transition: background 0.3s ease-in-out;
+# }
+
+# .source:hover {
+#     background: #0056b3;
+# }
+
+# .hashtags {
+#     margin-top: 15px;
+#     font-size: 14px;
+#     color: #555;
+#     font-style: italic;
+# }
+# """
+
+#     # Write HTML file
+#     article_title_hindi = re.sub(r'[<>:"/\\|?*]', '', (article["hindi_title"].replace(" ", "_")))  # Create a safe directory name
+#     directory_hindi = os.path.join("public\\articles_hindi", article_title_hindi)
+
+#     # Create the directory if it doesn't exist
+#     os.makedirs(directory_hindi, exist_ok=True)
+
+#     # File paths
+#     html_file_path = os.path.join(directory_hindi, "index.html")
+#     css_file_path = os.path.join(directory_hindi, "style.css")
+
+#     # Write HTML file
+#     with open(html_file_path, "w") as html_f:
+#         html_f.write(html_content)
+
+#     # Write CSS file
+#     with open(css_file_path, "w") as css_f:
+#         css_f.write(css_content)
+
+#     print(f"Generated {html_file_path} and {css_file_path} successfully!")
+
+news = fetch_news()
+
+for article in news:
+    # article_title_hindi = re.sub(r'[<>:"/\\|?*]', '', (article["hindi_title"].replace(" ", "_")))
+    # directory_hindi = os.path.join("public\\articles_hindi", article_title_hindi)
+    # generate_hindi_news_page(article, html_file=f"{directory_hindi}/index.html", css_file=f"{directory_hindi}/style.css")
