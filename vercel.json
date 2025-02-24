@@ -1,16 +1,10 @@
 {
+    "version": 2,
+
     "routes": [
-      {
-        "src": "/script.js",
-        "dest": "/script.js",
-        "headers": {
-          "Content-Type": "text/javascript"
+        {
+            "src": "/api/(.*)",
+            "dest": "/api/get_articles"
         }
-      },
-      {
-        "src": "/api/(.*)",
-        "dest": "/api/$1"
-      }
     ]
-  }
-  
+}

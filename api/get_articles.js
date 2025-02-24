@@ -1,50 +1,36 @@
-const mongoose = require('mongoose');
-console.log("MONGO_URI:", process.env.MONGO_URI);
+import mongoose from "mongoose";
 
+const MONGO_URI = process.env.MONGO_URI;
+let isConnected;
 
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+export default async function handler(req, res) {
+    try {
+        if (!MONGO_URI) {
+            return res.status(500).json({ error: "MongoDB URI is missing" });
+        }
 
-export default function handler(req, res) {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.status(200).json({ message: "API is working!" });
-}
-
-
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', () => console.log("Connected to MongoDB"));
-
-const articleSchema = new mongoose.Schema({
-    title: String,
-    link: String,
-    keywords: [String]
-});
-
-const Article = mongoose.model('news_articles', articleSchema, 'news_articles');
-
-module.exports = async (req, res) => {
-    if (req.method === 'GET' && req.url.includes("/search")) {
-        try {
-            const query = req.query.q;
-            if (!query) return res.json([]);
-
-            const articles = await Article.find({
-                keywords: { $regex: query, $options: "i" }
+        // Connect to MongoDB if not already connected
+        if (isConnected) {
+            console.log("Using existing MongoDB connection");
+        } else {
+            console.log("Connecting to MongoDB...");
+            await mongoose.connect(MONGO_URI, {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
             });
+            isConnected = true;
+            console.log("Connected to MongoDB");
+        }
 
-            res.json(articles);
-        } catch (err) {
-            res.status(500).json({ message: err.message });
-        }
-    } else {
-        try {
-            const articles = await Article.find();
-            res.json(articles);
-        } catch (err) {
-            res.status(500).json({ message: err.message });
-        }
+        const db = mongoose.connection.db;
+        const collection = db.collection("news_articles");
+
+        // Attempt to retrieve articles
+        const articles = await collection.find().limit(5).toArray();
+        console.log("Retrieved articles:", articles); // Log retrieved articles
+        res.status(200).json(articles);
+    } catch (error) {
+        console.error("Internal Server Error:", error); // Log the error message
+        return res.status(500).json({ error: error.message || "Internal Server Error" });
     }
-};
+}
