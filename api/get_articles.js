@@ -25,8 +25,23 @@ export default async function handler(req, res) {
         const db = mongoose.connection.db;
         const collection = db.collection("news_articles");
 
-        // Attempt to retrieve articles
-        const articles = await collection.find().limit(5).toArray();
+        // Check for search query
+        const { q } = req.query; // Retrieve the search query from the request
+        let articles;
+
+        if (q) {
+            // Perform search based on keywords in the title or description
+            articles = await collection.find({
+                $or: [
+                    { title: { $regex: q, $options: "i" } }, // Case-insensitive search in title
+                    { description: { $regex: q, $options: "i" } } // Case-insensitive search in description
+                ]
+            }).toArray();
+        } else {
+            // If no query is provided, retrieve all articles
+            articles = await collection.find().toArray();
+        }
+
         console.log("Retrieved articles:", articles); // Log retrieved articles
         res.status(200).json(articles);
     } catch (error) {

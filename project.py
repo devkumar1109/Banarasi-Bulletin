@@ -94,7 +94,7 @@ def fetch_news():
                                              <summary>{result_summary.content}</summary>""")
                 time.sleep(1.5)
                 article['keywords'] = result_keywords.content
-                article['keywords']+= genre + ', ' + location
+                article['keywords']+= ", " + genre + ', ' + location
                 
                 result_hashtags =  llm.invoke(f"""From the provided summary of a news article, give me around 15 small hashtags that are relevant,
                                               factual and would be good to use with my article. Try to include all the small details as well. 

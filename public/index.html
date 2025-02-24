@@ -8,15 +8,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <meta name="description" content="Latest news articles from Banarasi Bulletin. Stay updated with the current events!">
     <meta name="keywords" content="news, articles, Banarasi Bulletin, current events">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
         <h1>Banarasi Bulletin</h1>
-        <input type="text" id="searchBar" placeholder="Search articles..." onkeyup="searchArticles()">
+        <input type="text" id="searchBar" placeholder="Search articles...">
+        <button id="searchButton">Search</button>
+        <button id="nightModeButton"><i class="fas fa-moon"></i></button>
     </header>
-    <main>
-        <div id="articles-container"></div>
-    </main>
+    <div id="container">
+        <aside id="sidebar">
+            <h2>Genres</h2>
+            <label><input type="checkbox" value="sports" onchange="filterArticles()"> Sports</label><br>
+            <label><input type="checkbox" value="politics" onchange="filterArticles()"> Politics</label><br>
+            <label><input type="checkbox" value="health" onchange="filterArticles()"> Health</label><br>
+            <label><input type="checkbox" value="crime" onchange="filterArticles()"> Crime</label><br>
+            <label><input type="checkbox" value="business" onchange="filterArticles()"> Business</label><br>
+            <label><input type="checkbox" value="technology" onchange="filterArticles()"> Technology</label><br>
+        </aside>
+        <main>
+            <div id="articles-container"></div>
+        </main>
+    </div>
     <footer>
         <p>&copy; 2025 Banarasi Bulletin. All rights reserved.</p>
     </footer>
