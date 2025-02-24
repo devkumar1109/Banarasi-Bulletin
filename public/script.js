@@ -31,12 +31,26 @@ function searchArticles() {
             }
 
             data.forEach(article => {
-                const articleElement = document.createElement("a");
-                articleElement.href = article.link;
-                articleElement.innerText = article.title;
-                articleElement.classList.add("search-result-item");
+                const capsule = document.createElement("div");
+                capsule.classList.add("capsule");
+                capsule.style.cursor = 'pointer';
 
-                resultsContainer.appendChild(articleElement);
+                const img = document.createElement("img");
+                img.src = article.image; // Assuming the API returns an image URL
+                img.alt = article.title;
+
+                const title = document.createElement("h3");
+                title.innerText = article.title;
+
+                capsule.appendChild(img);
+                capsule.appendChild(title);
+
+                // Link to the corresponding blog page
+                capsule.onclick = () => {
+                    window.location.href = article.link; // Link from the API response
+                };
+
+                resultsContainer.appendChild(capsule);
             });
         })
         .catch(error => console.error("Error fetching search results:", error));
