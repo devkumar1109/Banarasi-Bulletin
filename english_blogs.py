@@ -26,7 +26,7 @@ def fetch_news():
     db = client["my_articles"]
     collection = db["news_articles"]  # Collection where articles will be stored
 
-    genres = ['sports', 'politics', 'health', 'crime', 'business', 'technology']
+    genres = ['sports', 'politics', 'health', 'crime', 'entertainment', 'technology']
     locations = ['Varanasi', 'Uttar Pradesh']
     news = []
     for genre in genres:
@@ -48,7 +48,7 @@ def fetch_news():
                 if len(page_content) < 20:
                     continue
                 
-                llm = ChatGroq(model='llama-3.3-70b-versatile', api_key='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')
+                llm = ChatGroq(model='llama3-70b-8192', api_key='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')
                 
                 result_news = llm.invoke(f"""Please extract factual, valuable and relevant news from the provided content in 350 words.
                                     Do not skip any valuable news related information.
@@ -127,7 +127,11 @@ def fetch_news():
                 print(e)
                 continue
     return news
-            
+def sanitize_filename(filename):
+    # Remove any invalid characters
+    return re.sub(r'[<>:"/\\|?*]', '_', filename)
+
+
 def generate_news_page(article, html_file="index1.html", css_file="style1.css"):
     # HTML Content with enhanced styling and hashtag section
     html_content = f"""<!DOCTYPE html>
@@ -273,6 +277,7 @@ main {
 
     # Write HTML file
     article_title = article["image_title"].replace(" ", "_")  # Create a safe directory name
+    article_title = sanitize_filename(article_title)
     directory = os.path.join("public/articles", article_title)
 
     # Create the directory if it doesn't exist
@@ -298,6 +303,7 @@ news = fetch_news()
 
 for article in news:
     article_title = article["image_title"].replace(" ", "_")
+    article_title = sanitize_filename(article_title)
     directory = os.path.join("public/articles", article_title)
     generate_news_page(article, html_file=f"{directory}/index1.html", css_file=f"{directory}/style1.css")
     
