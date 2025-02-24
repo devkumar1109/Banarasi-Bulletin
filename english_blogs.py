@@ -26,10 +26,8 @@ def fetch_news():
     db = client["my_articles"]
     collection = db["news_articles"]  # Collection where articles will be stored
 
-    # genres = ['sports', 'politics', 'health', 'crime', 'entertainment', 'technology']
-    # locations = ['Varanasi', 'Uttar Pradesh']
-    genres = ['health']
-    locations = ['Varanasi']
+    genres = ['sports', 'politics', 'health', 'crime', 'entertainment', 'technology']
+    locations = ['Varanasi', 'Uttar Pradesh']
     news = []
     for genre in genres:
         for location in locations:
@@ -50,7 +48,7 @@ def fetch_news():
                 if len(page_content) < 20:
                     continue
                 
-                llm = ChatGroq(model='llama-3.3-70b-versatile', api_key='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')
+                llm = ChatGroq(model='llama3-70b-8192', api_key='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')
                 
                 result_summary = llm.invoke(f"""Please extract factual, valuable and relevant news from the provided content
                                          and summarize it in 150 words.
