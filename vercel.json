@@ -1,11 +1,12 @@
 {
-  "version": 2,
-  "builds": [
-    { "src": "api/getArticles.js", "use": "@vercel/node" },
-    { "src": "index.html", "use": "@vercel/static" }
-  ],
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/api/getArticles.js" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
-}
+    "routes": [
+      {
+        "src": "/script.js",
+        "dest": "/script.js",
+        "headers": {
+          "Content-Type": "text/javascript"
+        }
+      }
+    ]
+  }
+  
