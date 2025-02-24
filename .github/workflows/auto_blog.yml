@@ -44,6 +44,9 @@ jobs:
           git commit -m "Auto-update articles [CI-Script]" || echo "No changes to commit"
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/devkumar1109/Banarasi-Bulletin.git HEAD:main || echo "No changes"
 
+      -name: Install Vercel CLI
+        run: npm install -g vercel
+
       - name: Deploy to Vercel
         run: vercel --prod
         env:
