@@ -20,7 +20,7 @@ Banarasi Bulletin is an automated news aggregation and blogging platform focused
   - Configured with GitHub Actions to fetch new articles and update the website every **8 hours**.
   - A YAML configuration ensures seamless automated updates.
 
-##🏗️ Tech Stack
+## 🏗️ Tech Stack
 - **Backend**: Python
 - **Frontend**: HTML, CSS, JavaScript
 - **Database**: MongoDB Atlas
@@ -29,7 +29,7 @@ Banarasi Bulletin is an automated news aggregation and blogging platform focused
 - **Image Processing**: Cloudinary API
 - **Hosting & Deployment**: Vercel, GitHub Actions
 
-##📂 Project Structure
+## 📂 Project Structure
 
 Banarasi-Bulletin/
 │-- public/
