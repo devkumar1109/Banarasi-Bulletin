@@ -261,7 +261,7 @@ main {
 
     # Write HTML file
     article_title = re.sub(r'[<>:"/\\|?*,.]', '', (article["title"].replace(" ", "_")))  # Create a safe directory name
-    directory = os.path.join("public\\articles", article_title)
+    directory = os.path.join("public/articles", article_title)
 
     # Create the directory if it doesn't exist
     os.makedirs(directory, exist_ok=True)
@@ -287,7 +287,7 @@ news = fetch_news()
 
 for article in news:
     article_title = re.sub(r'[<>:"/\\|?*,.]', '', (article["title"].replace(" ", "_")))
-    directory = os.path.join("public\\articles", article_title)
+    directory = os.path.join("public/articles", article_title)
     generate_news_page(article, html_file=f"{directory}/index.html", css_file=f"{directory}/style.css")
     
 
