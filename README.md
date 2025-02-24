@@ -29,7 +29,7 @@ Banarasi Bulletin is an automated news aggregation and blogging platform focused
 - **Image Processing**: Cloudinary API
 - **Hosting & Deployment**: Vercel, GitHub Actions
 
-- 📂 Project Structure
+##📂 Project Structure
 
 Banarasi-Bulletin/
 │-- public/
