@@ -16,13 +16,13 @@
     </main>
 
     <script>
-        fetch('pages.json')
+        fetch('/api/articles')
             .then(response => response.json())
             .then(data => {
                 const container = document.getElementById('articles-container');
                 data.forEach(article => {
                     const articleLink = document.createElement('a');
-                    articleLink.href = article.path;
+                    articleLink.href = article.link;
                     articleLink.innerText = article.title;
                     articleLink.classList.add('article-link');
                     container.appendChild(articleLink);

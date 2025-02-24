@@ -10,3 +10,4 @@ uvicorn
 fastapi
 cloudinary
 bs4
+pymongo[srv]
