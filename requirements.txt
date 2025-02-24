@@ -11,3 +11,6 @@ fastapi
 cloudinary
 bs4
 pymongo[srv]
+express
+mongoose
+cors

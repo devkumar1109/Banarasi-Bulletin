@@ -17,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/devkumar1109/First_Articles/issues"
   },
-  "homepage": "https://github.com/devkumar1109/First_Articles#readme"
+  "homepage": "https://github.com/devkumar1109/First_Articles#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "mongoose": "^8.10.1"
+  }
 }

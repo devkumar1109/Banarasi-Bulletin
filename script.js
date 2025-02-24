@@ -6,11 +6,11 @@ function searchArticles() {
         return;
     }
 
-    fetch(`/api/search?q=${query}`)
+    fetch('/api/search?q=' + query)
         .then(response => response.json())
         .then(data => {
             const resultsContainer = document.getElementById("searchResults");
-            resultsContainer.innerHTML = ""; // Clear previous results
+            resultsContainer.innerHTML = "";
 
             if (data.length === 0) {
                 resultsContainer.innerHTML = "<p>No articles found.</p>";
