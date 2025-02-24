@@ -103,7 +103,7 @@ def fetch_news():
                 
                 article_data = {
                     "title": article["title"],
-                    "link": f"{project_path}/articles/{re.sub(r'[<>:"/\\|?*]', '', (article["title"].replace(" ", "_")))}/index.html",
+                    "link": f"{project_path}/articles/{re.sub(r'[<>:"/\\|?*,.]', '', (article["title"].replace(" ", "_")))}/index.html",
                     "keywords": article['keywords'],
                     "image": article['image_url']
                 }
@@ -260,7 +260,7 @@ main {
 """
 
     # Write HTML file
-    article_title = re.sub(r'[<>:"/\\|?*]', '', (article["title"].replace(" ", "_")))  # Create a safe directory name
+    article_title = re.sub(r'[<>:"/\\|?*,.]', '', (article["title"].replace(" ", "_")))  # Create a safe directory name
     directory = os.path.join("public\\articles", article_title)
 
     # Create the directory if it doesn't exist
@@ -286,7 +286,11 @@ main {
 news = fetch_news()
 
 for article in news:
-    article_title = re.sub(r'[<>:"/\\|?*]', '', (article["title"].replace(" ", "_")))
+    article_title = re.sub(r'[<>:"/\\|?*,.]', '', (article["title"].replace(" ", "_")))
     directory = os.path.join("public\\articles", article_title)
     generate_news_page(article, html_file=f"{directory}/index.html", css_file=f"{directory}/style.css")
     
+
+os.system('git add .')
+os.system('git commit -m "Auto-Blogging"')
+os.system('git push -u origin main')
