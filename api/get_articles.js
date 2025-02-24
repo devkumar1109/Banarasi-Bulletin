@@ -5,6 +5,12 @@ mongoose.connect(process.env.MONGO_URI, {
     useUnifiedTopology: true
 });
 
+export default function handler(req, res) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.status(200).json({ message: "API is working!" });
+}
+
+
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => console.log("Connected to MongoDB"));
