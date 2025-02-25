@@ -1,0 +1,51 @@
+name: Auto-Scrape and Deploy
+
+on:
+  schedule:
+    - cron: "0 */8 * * *"  # Runs every 8 hours
+  workflow_dispatch:  # Allows manual runs
+
+jobs:
+  update_articles:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false  # Use a GitHub token instead
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install requests langchain langchain_community python-dotenv langchain_groq duckduckgo-search gradio-client pillow huggingface-hub uvicorn fastapi cloudinary bs4 pymongo[srv]
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.14.0'
+
+      - name: Install dependencies
+        run: npm install express mongoose cors
+
+      
+      - name: Run scraper
+        run: python english_blogs.py
+        
+      - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions@github.com"
+          git add .
+          git commit -m "Auto-update articles [CI-Script]" || echo "No changes to commit"
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/devkumar1109/Banarasi-Bulletin.git HEAD:main || echo "No changes"
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
+      - name: Deploy to Vercel
+        run: vercel --prod --yes --name project1 --token ${{ secrets.VERCEL_TOKEN }}
