@@ -30,17 +30,21 @@ export default async function handler(req, res) {
         let articles;
 
         if (q) {
-            // Perform search based on keywords in the title or description
+            // Perform search based on keywords in the title or the keywords array
             articles = await collection.find({
                 $or: [
                     { title: { $regex: q, $options: "i" } }, // Case-insensitive search in title
-                    { description: { $regex: q, $options: "i" } } // Case-insensitive search in description
+                    { keywords: { $in: [new RegExp(q, "i")] } } // Case-insensitive search in keywords array
                 ]
             }).toArray();
         } else {
             // If no query is provided, retrieve all articles
             articles = await collection.find().toArray();
         }
+        
+        // Reverse the fetched articles order
+        articles.reverse();
+        
 
         console.log("Retrieved articles:", articles); // Log retrieved articles
         res.status(200).json(articles);
